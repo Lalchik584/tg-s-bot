@@ -35,10 +35,15 @@ db = Database()
 
 class ConcertBot:
     def __init__(self):
-        self.application = Application.builder().token(TOKEN).build()
-        self.scheduler = AsyncIOScheduler(timezone=TIMEZONE)
-        self.setup_handlers()
-        self.setup_scheduler()
+        try:
+            self.application = Application.builder().token(TOKEN).build()
+            self.scheduler = AsyncIOScheduler(timezone=TIMEZONE)
+            self.setup_handlers()
+            self.setup_scheduler()
+            logger.info("Bot initialized successfully")
+        except Exception as e:
+            logger.error(f"Failed to initialize bot: {e}")
+            raise
     
     def setup_handlers(self):
         # Команды
