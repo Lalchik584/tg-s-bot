@@ -423,13 +423,17 @@ async def health_check():
     logger.info("Health check server started on port 8080")
 
 if __name__ == '__main__':
-    # Запускаем HTTP сервер для health check
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
-    
-    # Создаем задачу для health check
-    health_task = loop.create_task(health_check())
-    
-    # Запускаем бота
-    bot = ConcertBot()
-    bot.run()
+    try:
+        # Запускаем HTTP сервер для health check
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        
+        # Создаем задачу для health check
+        health_task = loop.create_task(health_check())
+        
+        # Запускаем бота
+        bot = ConcertBot()
+        bot.run()
+    except Exception as e:
+        logger.error(f"Startup failed: {e}")
+        raise
